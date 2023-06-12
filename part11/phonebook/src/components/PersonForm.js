@@ -1,4 +1,4 @@
-const PersonForm = ({handleSubmit, nameEvent, numberEvent}) => 
+const PersonForm = ({ handleSubmit, nameEvent, numberEvent }) =>
   <form onSubmit={handleSubmit}>
     <div>
       name: <input value={nameEvent.newName} onChange={nameEvent.handleNameChange}/>

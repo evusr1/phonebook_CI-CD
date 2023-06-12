@@ -9,32 +9,32 @@ import PhoneBook from './components/PhoneBook'
 
 import './index.css'
 
-const Notification = ({message}) => {
+const Notification = ({ message }) => {
 
-  if(message.message == null) 
+  if(message.message === null)
     return null
-  
+
   const notificationStyle = {
     color: message.color
   }
-  
+
   return (
-      <div className='notification' style={notificationStyle}>
-        {message.message}
-      </div>
-    )
+    <div className='notification' style={notificationStyle}>
+      {message.message}
+    </div>
+  )
 }
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  
+
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
 
   const [searchName, setSearchName] = useState('')
 
   const [notificationMessage, setNotificationMessage] = useState({
-     message: null, color : null
+    message: null, color : null
   })
 
   useEffect(() => {
@@ -45,10 +45,10 @@ const App = () => {
 
   const showNotificationMessage = (message, color) => {
     setNotificationMessage(
-      {message, color}
-    ) 
+      { message, color }
+    )
     setTimeout(()=> {
-      setNotificationMessage({...notificationMessage, message: null})
+      setNotificationMessage({ ...notificationMessage, message: null })
     }, 5000)
   }
 
@@ -58,7 +58,7 @@ const App = () => {
     const oldPerson = persons.find((person) => person.name===newName)
     if(oldPerson) {
       if(window.confirm(`${oldPerson.name} is already added to the phonebook, replace the old number with the new one?`)) {
-        const changePerson = {...oldPerson, number: newPhone }
+        const changePerson = { ...oldPerson, number: newPhone }
 
         personsService
           .update(oldPerson.id, changePerson)
@@ -66,9 +66,9 @@ const App = () => {
             if(!returnedPerson) {
               showNotificationMessage(`Information of ${oldPerson.name} has already been removed from the server.`, 'red')
               setPersons(persons.filter(p => p.id !== oldPerson.id))
-              return;
+              return
             }
-            
+
             setPersons(persons.map(p => p.id !== oldPerson.id ? p : returnedPerson ))
             setNewName('')
             setNewPhone('')
@@ -77,16 +77,16 @@ const App = () => {
           .catch((e) => {
             if(e.response.status === 400) {
               showNotificationMessage(e.response.data.error, 'red')
-              return;
+              return
             }
             showNotificationMessage(`Information of ${oldPerson.name} has already been removed from the server.`, 'red')
             setPersons(persons.filter(p => p.id !== oldPerson.id))
-        }) 
+          })
       }
 
     } else {
       const nameObject = { name: newName, number: newPhone }
-      
+
       personsService
         .create(nameObject)
         .then(newPerson => {
@@ -104,7 +104,7 @@ const App = () => {
 
   const removeName = id => {
     const oldPerson = persons.find((person) => person.id===id)
-    
+
     if(window.confirm(`Delete ${oldPerson.name}?`)) {
       personsService
         .remove(id)
@@ -114,24 +114,24 @@ const App = () => {
         .catch(() => {
           showNotificationMessage(`Information of ${oldPerson.name} has already been removed from the server.`, 'red')
           setPersons(persons.filter(p => p.id !== id))
-      })
+        })
     }
   }
 
 
-  const handleNameChange = (e) => 
+  const handleNameChange = (e) =>
     setNewName(e.target.value)
 
-  const handlePhoneChange = (e) => 
-    setNewPhone(e.target.value) 
+  const handlePhoneChange = (e) =>
+    setNewPhone(e.target.value)
 
   const handleSearchChange = (e) => {
-    setSearchName(e.target.value) 
+    setSearchName(e.target.value)
   }
 
   const namesToShow = (searchName==='')
-      ? persons
-      : persons.filter((person) => person.name.toLowerCase().includes(searchName.toLowerCase()))
+    ? persons
+    : persons.filter((person) => person.name.toLowerCase().includes(searchName.toLowerCase()))
 
   return (
     <div>
@@ -142,13 +142,13 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm
         nameEvent={{
-                    newName,
-                    handleNameChange
-                  }}
+          newName,
+          handleNameChange
+        }}
         numberEvent={{
-                    newPhone,
-                    handlePhoneChange
-                  }}
+          newPhone,
+          handlePhoneChange
+        }}
         handleSubmit={addName} />
 
       <h3>Numbers</h3>
