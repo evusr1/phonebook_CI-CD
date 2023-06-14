@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Check style
-        run: npm run eslint
+        run: npm run lint
       - name: Build
         run: npm run build-react
       - name: Test
