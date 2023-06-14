@@ -2,7 +2,8 @@ module.exports = {
   'env': {
     'node': true,
     'commonjs': true,
-    'es2021': true
+    'es2021': true,
+    'cypress/globals': true
   },
   'extends': 'eslint:recommended',
   'overrides': [
@@ -33,5 +34,6 @@ module.exports = {
       'error', 'always'
     ],
     'no-console': 0
-  }
+  },
+  'plugins': ['cypress'],
 }
