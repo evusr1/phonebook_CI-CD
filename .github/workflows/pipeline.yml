@@ -18,8 +18,12 @@ jobs:
         run: npm install
       - name: Check style
         run: npm run lint
-      - name: Build
+      - name: Build React App
         run: npm run build-react
+      - name: Run backend tests
+        run: npm run test
+        env:
+            TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       - name: Run e2e test
         uses: cypress-io/github-action@v5
         with:
