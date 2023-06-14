@@ -93,6 +93,13 @@ app.get('/info', (request, response) => {
   })
 })
 
+if (process.env.NODE_ENV === 'test') {
+  app.post('/api/testing/reset', async (request, response) => {
+    await Person.deleteMany({})
+    response.status(204).end()
+  })
+}
+
 app.use(errorHandler)
 
 const PORT = process.env.PORT
