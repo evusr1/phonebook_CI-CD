@@ -14,7 +14,7 @@
     "test-react": "react-scripts test",
     "eject-react": "react-scripts eject",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run --headed"
   },
   "author": "evusr1",
   "license": "MIT",
