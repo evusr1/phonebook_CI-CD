@@ -1,0 +1,30 @@
+name: Health check
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+jobs:
+  health_check_job:
+    runs-on: ubuntu-20.04
+    steps:
+        - name: Check the deployed service URL
+          uses: jtalk/url-health-check-action@v3
+          with:
+            url: https://silent-cherry-8182.fly.dev/health
+            max-attempts: 3 
+            retry-delay: 5s 
+        - name: Health check ok
+          uses: rjstone/discord-webhook-notify@v1
+          if: success()
+          with:
+            severity: info
+            details: Health check ok.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+        - name: Health check error
+          uses: rjstone/discord-webhook-notify@v1
+          if: failure()
+          with:
+            severity: error
+            details: Health check failed.
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}

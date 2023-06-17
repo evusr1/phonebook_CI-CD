@@ -93,6 +93,10 @@ app.get('/info', (request, response) => {
   })
 })
 
+app.get('/health', (request, response) => {
+  response.send('ok')
+})
+
 if (process.env.NODE_ENV === 'test') {
   app.post('/api/testing/reset', async (request, response) => {
     await Person.deleteMany({})
